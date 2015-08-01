@@ -1,7 +1,10 @@
+Project Tortoise Server Development Environment
+
+
 This document outlines the tortoise project server side development environment setup.
 
 Most of the stuff captured here are my outlook on plenty tutorials on the web, and compiled in our version. I'd say it’s the curiosity that drives me towards the buzzword MEAN (MongoDB, Express, Angular JS and NodJS) that got popular quite recently.
-Let’s talk little bit on MEAN stack and its installation, followed by "Hello, World!" just for sake on completeness.
+Let’s talk little bit on MEAN stack and its installation, followed by "Hello, World!" just for sake of completeness.
 
 Please note, we are dropping "Angular JS" from our discussion as it’s a client front-end development. So we can say it’s a ME(a)N stack instead.
 Also note that all technologies are open-source or under free distribution lic.
@@ -84,8 +87,8 @@ Now open web browser and type http://localhost:3000/ to see our first web applic
 Simple way to get start is to refer: http://nodeschool.io/
 
 More interesting example with additional RESTful and MongoDB (Mongoose to have schema) can be found:
-[i].   http://adrianmejia.com/blog/2014/10/01/creating-a-restful-api-tutorial-with-nodejs-and-mongodb/
-[ii].  http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/
+[i]. http://adrianmejia.com/blog/2014/10/01/creating-a-restful-api-tutorial-with-nodejs-and-mongodb/
+[ii]. http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/
 [iii]. http://scottksmith.com/blog/2014/05/02/building-restful-apis-with-node/
 
 
@@ -135,3 +138,32 @@ We will keep folder structure like below (keeping MVC design doal in our subcons
 
 
 
+
+Package.json
+
+{
+  "name": "tortoise",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0",
+    "mongoose": "^3.8.8",
+    "bcrypt-nodejs": "0.0.3",
+    "passport": "^0.2.0",
+    "passport-http": "^0.2.2",
+    "passport-http-bearer": "^1.0.1",
+    "oauth2orize": "^1.0.1",
+    "express-session": "^1.6.1",
+    "ejs": "^1.0.0",
+    "passport-local": "^1.0.0"	
+  }
+}
