@@ -7,24 +7,24 @@ var medical_history_schema = new mongoose.Schema({
 		  format: String,
 		  date: Date
 	  },
-	  
+
 	  height: {
 		  unit: String,
 		  value: Number
 	  },
-	  
+
 	  weight: {
 		  unit: String,
 		  value: Number
 	  },
-	
+
 	  blood_pressure: {
 		dateformat: String,
 		last_reading_on: Date,
 		systole: Number,
 		diastole: Number
 	  },
-	  
+
 	  diabetic: {
 		dateformat: String,
 		last_reading_on: Date,
@@ -33,7 +33,7 @@ var medical_history_schema = new mongoose.Schema({
 			post_meal: Number
 		}
 	  },
-	  
+
 	  thyroid: {
 		dateformat: String,
 		last_reading_on: Date,

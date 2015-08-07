@@ -210,11 +210,9 @@ exports.getProfileAll = function(req, res) {
     
     res.json({
       profile: {
-        profile: user_profile,
+        user: user_profile,
         address: user_address,
-        services: {
-          service: user_service
-        },
+        services: user_service,
         medical_history: user_medical_history
       }
     });

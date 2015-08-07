@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
 // Define our user schema
-// TODO: Keep hash and salt
 var user_schema = new mongoose.Schema({
   username: {
     type: String,
