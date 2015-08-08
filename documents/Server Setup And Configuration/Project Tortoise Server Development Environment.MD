@@ -98,43 +98,43 @@ We will keep folder structure like below (keeping MVC design doal in our subcons
 
   tortoise
          |
-		 |
-		 \_
-		    bin
-	           |
-			    \_
-				   www       // Entry point and server/http
+	 |
+	 \_
+	    bin
+	      |
+	      \_
+		www       // Entry point and server/http
          |
-		 |
-		 \_
-		    controllers       // Controllers
-		 |
-		 |
-		 \_
-		    models            // data-models
-		 |
-		 |
-		 \_
-		    views              // Views if any
-		 |
-		 |
-		 \_
-		    db
-		 |
-		 |
-		 \_
-		    routes
-			     |
-				 \_
-				    routes.js  // routing tables
-		 |
-		 |
-		 \_
-		    app.js             // Application logic
-		 |
-		 |
-		 \_
-		    package.json      // List down entrypoint and dependencies
+	 |
+	 \_
+	    controllers       // Controllers
+	 |
+	 |
+	 \_
+	    models            // data-models
+	|
+	|
+	\_
+	   views              // Views if any
+	|
+	|
+	\_
+	   db
+	|
+	|
+	\_
+	  routes
+		|
+		\_
+		   routes.js  // routing tables
+	|
+	|
+	\_
+	   app.js             // Application logic
+	|
+	|
+	\_
+	   package.json      // List down entrypoint and dependencies
 
 
 
