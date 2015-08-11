@@ -1,4 +1,6 @@
 // Load required packages and data models
+var express = require('express');
+var router = express.Router();
 var HealthListing = require('../models/services/health_listing');
 var Review = require('../models/services/review');
 
@@ -29,17 +31,17 @@ function addHealthListingUtil(req, res, listing) {
 }
 
 // Create endpoint /tortoise/services/healthlistings/hospitals for POST
-exports.postHospitalsListing = function(req, res) {
+var postHospitalsListing = function(req, res) {
   addHealthListingUtil(req, res, 'hospital');
 };
 
 // Create endpoint /tortoise/services/healthlistings/physicians for POST
-exports.postPhysiciansListing = function(req, res) {
+var postPhysiciansListing = function(req, res) {
   addHealthListingUtil(req, res, 'physician');
 };
 
 // Create endpoint /tortoise/services/healthlistings/pharmacies for POST
-exports.postPharmaciesListing = function(req, res) {
+var postPharmaciesListing = function(req, res) {
   addHealthListingUtil(req, res, 'pharmacy');
 };
 
@@ -57,19 +59,24 @@ function getListingsUtil(req, res, listing) {
 }
 
 // Create endpoint /tortoise/services/healthlistings/hospitals for GET
-exports.getHospitalsListing = function(req, res) {
+var getHospitalsListing = function(req, res) {
   getListingsUtil(req, res, 'hospital');
 };
 
 // Create endpoint /tortoise/services/healthlistings/pharmacies for GET
-exports.getPharmaciesListing = function(req, res) {
+var getPharmaciesListing = function(req, res) {
   getListingsUtil(req, res, 'pharmacy');
 };
 
 // Create endpoint /tortoise/services/healthlistings/physicians for GET
-exports.getPhysiciansListing = function(req, res) {
+var getPhysiciansListing = function(req, res) {
   getListingsUtil(req, res, 'physician');
 };
+
+// Create endpoint /tortoise/services/healthlistings for GET
+var getHealthListing = function(req, res) {
+  res.json({message: 'List all health listings.'});
+}
 
 // ------------------------------------------------------------- //
 
@@ -84,17 +91,17 @@ function getListingUtil(req, res, listing) {
 }
 
 // Create endpoint /tortoise/services/healthlistings/hospitals/:lisitng_id for GET
-exports.getHospitalListing = function(req, res) {
+var getHospitalListing = function(req, res) {
   getListingUtil(req, res, 'hospital');
 };
 
 // Create endpoint /tortoise/services/healthlistings/pharmacies/:lisitng_id for GET
-exports.getPharmacyListing = function(req, res) {
+var getPharmacyListing = function(req, res) {
   getListingUtil(req, res, 'pharmacy');
 };
 
 // Create endpoint /tortoise/services/healthlistings/physicians/:lisitng_id for GET
-exports.getPhysicianListing = function(req, res) {
+var getPhysicianListing = function(req, res) {
   getListingUtil(req, res, 'physician');
 };
 
@@ -123,17 +130,17 @@ function addReviewUtil(req, res, listing_type) {
 }
 
 // Create endpoint /tortoise/services/healthlistings/reviews/hospitals/:listing_id for POST
-exports.postHospitalReview = function(req, res) {
+var postHospitalReview = function(req, res) {
   addReviewUtil(req, res, 'hospital');
 };
 
 // Create endpoint /tortoise/services/healthlistings/reviews/pharmacies/:listing_id for POST
-exports.postPharmacyReview = function(req, res) {
+var postPharmacyReview = function(req, res) {
   addReviewUtil(req, res, 'pharmacy');
 };
 
 // Create endpoint /tortoise/services/healthlistings/reviews/physicians/:listing_id for POST
-exports.postPhysicianReview = function(req, res) {
+var postPhysicianReview = function(req, res) {
   addReviewUtil(req, res, 'physician');
 };
 
@@ -150,19 +157,70 @@ function getReviewUtil(req, res, listing) {
 }
 
 // Create endpoint /tortoise/services/healthlistings/reviews/hospitals/:listing_id for GET
-exports.getHospitalReview = function(req, res) {
+var getHospitalReview = function(req, res) {
   getReviewUtil(req, res, 'hospital');
 };
 
 // Create endpoint /tortoise/services/healthlistings/reviews/pharmacies/:lisitng_id for GET
-exports.getPharmacyReview = function(req, res) {
+var getPharmacyReview = function(req, res) {
   getReviewUtil(req, res, 'pharmacy');
 };
 
 // Create endpoint /tortoise/services/healthlistings/reviews/physicians/:lisitng_id for GET
-exports.getPhysicianReview = function(req, res) {
+var getPhysicianReview = function(req, res) {
   getReviewUtil(req, res, 'physician');
 };
 
 
-// ------------------------------------------------------------- //
+// ---------------------------------------------------------------//
+// Create endpoint /tortoise/services/healthlistings for GET
+router.route('/')
+    .get(getHealthListing);
+
+// Create endpoint /tortoise/services/healthlistings/hospitals for POST & GET.
+router.route('/hospitals')
+	.post(postHospitalsListing)
+	.get(getHospitalsListing);
+
+// Create endpoint /tortoise/services/healthlistings/physicians for POST & GET.
+router.route('/physicians')
+	.post(postPhysiciansListing)
+	.get(getPhysiciansListing);
+
+// Create endpoint /tortoise/services/healthlistings/pharmacies for POST & GET.
+router.route('/pharmacies')
+	.post(postPharmaciesListing)
+	.get(getPharmaciesListing);
+
+// Create endpoint /tortoise/services/healthlistings/hospitals/:listing_id for POST & GET.
+router.route('/hospitals/:listing_id')
+	.get(getHospitalListing);
+
+// Create endpoint /tortoise/services/healthlistings/physicians/:listing_id for POST & GET.
+router.route('/physicians/:listing_id')
+	.get(getPhysicianListing);
+
+// Create endpoint /tortoise/services/healthlistings/pharmacies/:listing_id for POST & GET.
+router.route('/pharmacies/:listing_id')
+	.get(getPharmacyListing);
+
+// ---------------------------------------------------------------//
+
+// Create endpoint /tortoise/services/healthlistings/reviews/hospitals/:listing_id for POST & GET.
+router.route('/reviews/hospitals/:listing_id')
+	.post(postHospitalReview)
+	.get(getHospitalReview);
+
+// Create endpoint /tortoise/services/healthlistings/reviews/physicians/:listing_id for POST & GET.
+router.route('/reviews/physicians/:listing_id')
+	.post(postPhysicianReview)
+	.get(getPhysicianReview);
+
+// Create endpoint /tortoise/services/healthlistings/reviews/pharmacies/:listing_id for POST & GET.
+router.route('/reviews/pharmacies/:listing_id')
+	.post(postPharmacyReview)
+	.get(getPharmacyReview);
+
+// ---------------------------------------------------------------//
+
+module.exports = router;

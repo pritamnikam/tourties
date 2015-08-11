@@ -1,4 +1,6 @@
 // Load required packages and data models
+var express = require('express');
+var router = express.Router();
 var Profile = require('../models/profile/profile');
 var Address = require('../models/profile/address');
 var Service = require('../models/profile/service');
@@ -7,7 +9,7 @@ var MedicalHistory = require('../models/profile/medical_history');
 // ------------------------------------------------------------------ //
 
 // Create endpoint /tortoise/user/profile for POST
-exports.postProfile = function(req, res) {
+var postProfile = function(req, res) {
   var profile = new Profile({
    	first_name: req.body.first_name,
   	last_name: req.body.last_name,
@@ -28,7 +30,7 @@ exports.postProfile = function(req, res) {
 
 
 // Create endpoint /tortoise/user/profile/:user_id for GET
-exports.getProfile = function(req, res) {
+var getProfile = function(req, res) {
   Profile.find({user_id: req.params.user_id}, function(err, profile) {
     if (err)
       res.send(err);
@@ -42,7 +44,7 @@ exports.getProfile = function(req, res) {
 // ------------------------------------------------------------------ //
 
 // Create endpoint /tortoise/user/address for POST
-exports.postAddress = function(req, res) {
+var postAddress = function(req, res) {
   var address = new Address({
 	  line1: req.body.line1,
 	  line2: req.body.line2,
@@ -62,7 +64,7 @@ exports.postAddress = function(req, res) {
 };
 
 // Create endpoint /tortoise/user/address/:user_id for GET
-exports.getAddress = function(req, res) {
+var getAddress = function(req, res) {
   Address.find({user_id: req.params.user_id}, function(err, address) {
     if (err)
       res.send(err);
@@ -75,7 +77,7 @@ exports.getAddress = function(req, res) {
 // ------------------------------------------------------------------ //
 
 // Create endpoint /tortoise/user/service for POST
-exports.postService = function(req, res) {
+var postService = function(req, res) {
   var service = new Service({
   	service_name: req.body.service_name,
   	service_type: req.body.service_type,
@@ -94,7 +96,7 @@ exports.postService = function(req, res) {
 
 
 // Create endpoint /tortoise/user/service/:user_id for GET
-exports.getService = function(req, res) {
+var getService = function(req, res) {
   Service.find({user_id: req.params.user_id}, function(err, service) {
     if (err)
       res.send(err);
@@ -109,7 +111,7 @@ exports.getService = function(req, res) {
 
 
 // Create endpoint /tortoise/user/medical_service for POST
-exports.postMedicalHistory = function(req, res) {
+var postMedicalHistory = function(req, res) {
   var medical_service = new MedicalHistory({
 	  dob: {
 		  format: req.body.format,
@@ -161,7 +163,7 @@ exports.postMedicalHistory = function(req, res) {
 
 
 // Create endpoint /tortoise/user/service/:user_id for GET
-exports.getMedicalHistory = function(req, res) {
+var getMedicalHistory = function(req, res) {
   MedicalHistory.find({user_id: req.params.user_id}, function(err, medical_history) {
     if (err)
       res.send(err);
@@ -174,7 +176,7 @@ exports.getMedicalHistory = function(req, res) {
 
 
 // Create endpoint /tortoise/user/profile/all/:user_id for GET
-exports.getProfileAll = function(req, res) {
+var getProfileAll = function(req, res) {
     var user_profile;
     var user_address;
     var user_service;
@@ -217,3 +219,42 @@ exports.getProfileAll = function(req, res) {
       }
     });
 };
+
+
+// ---------------------------------------------------------------//
+
+// Create endpoint /tortoise/user/profile for POST
+router.route('/user/profile')
+	.post(postProfile);
+
+// Create endpoint /tortoise/user/profile/:user_id for GET
+router.route('/user/profile/:user_id')
+	.get(getProfile);
+
+// Create endpoint /tortoise/user/address for POST
+router.route('/user/address')
+	.post(postAddress);
+
+// Create endpoint /tortoise/user/address/:user_id for GET
+router.route('/user/address/:user_id')
+	.get(getAddress);
+
+// Create endpoint /tortoise/user/service for POST
+router.route('/user/service')
+	.post(postService);
+
+// Create endpoint /tortoise/user/service/:user_id for GET
+router.route('/user/service/:user_id')
+	.get(getService);
+
+// Create endpoint /tortoise/user/medical_history for POST
+router.route('/user/medical_history')
+	.post(postMedicalHistory);
+
+// Create endpoint /tortoise/user/medical_history/:user_id for GET
+router.route('/user/medical_history/:user_id')
+	.get(getMedicalHistory);
+
+// ---------------------------------------------------------------//
+
+module.exports = router;

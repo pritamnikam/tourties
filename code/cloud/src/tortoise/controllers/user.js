@@ -1,8 +1,12 @@
 // Load required packages and data models
+var express = require('express');
+var router = express.Router();
 var User = require('../models/user');
 
+// ---------------------------------------------------------------//
+
 // Create endpoint /tortoise/auth/session for POST
-exports.postUsers = function(req, res) {
+var postUsers = function(req, res) {
   var user = new User({
     username: req.body.username,
     password: req.body.password
@@ -18,7 +22,7 @@ exports.postUsers = function(req, res) {
 };
 
 // Create endpoint /tortoise/users for GET
-exports.getUsers = function(req, res) {
+var getUsers = function(req, res) {
   User.find(function(err, users) {
     if (err)
       res.send(err);
@@ -28,7 +32,7 @@ exports.getUsers = function(req, res) {
 };
 
 // Create endpoint /tortoise/users/:user_id for GET
-exports.getUser = function(req, res) {
+var getUser = function(req, res) {
   User.find({_id: req.params.user_id}, function(err, user) {
     if (err)
       res.send(err);
@@ -36,3 +40,20 @@ exports.getUser = function(req, res) {
     res.json(user);
   });
 };
+
+// ---------------------------------------------------------------//
+
+// Create endpoint /tortoise/users/authenticate for POST
+router.route('/authenticate')
+	.post(postUsers);
+
+// Create endpoint handlers for /tortoise/users
+router.route('/')
+	.get(getUsers);
+
+// Create endpoint /tortoise/users/:user_id for GET
+router.route('/:user_id')
+	.get(getUser);
+// ---------------------------------------------------------------//
+
+module.exports = router;
