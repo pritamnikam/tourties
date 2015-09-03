@@ -8,7 +8,7 @@ var MedicalHistory = require('../models/profile/medical_history');
 
 // ------------------------------------------------------------------ //
 
-// Create endpoint /tortoise/user/profile for POST
+// Create endpoint /tortoise/user/profile/nameinfo for POST
 var postProfile = function(req, res) {
   var profile = new Profile({
    	first_name: req.body.first_name,
@@ -29,7 +29,7 @@ var postProfile = function(req, res) {
 };
 
 
-// Create endpoint /tortoise/user/profile/:user_id for GET
+// Create endpoint /tortoise/user/profile/nameinfo/:user_id for GET
 var getProfile = function(req, res) {
   Profile.find({user_id: req.params.user_id}, function(err, profile) {
     if (err)
@@ -43,16 +43,16 @@ var getProfile = function(req, res) {
 
 // ------------------------------------------------------------------ //
 
-// Create endpoint /tortoise/user/address for POST
+// Create endpoint /tortoise/user/profile/address for POST
 var postAddress = function(req, res) {
   var address = new Address({
-	  line1: req.body.line1,
-	  line2: req.body.line2,
-	  city: req.body.city,
-	  state: req.body.state,
-	  zip: req.body.zip,
-	  country: req.body.country,
-  	user_id: req.body.user_id,
+    line1: req.body.line1,
+    line2: req.body.line2,
+    city: req.body.city,
+    state: req.body.state,
+    zip: req.body.zip,
+    country: req.body.country,
+    user_id: req.body.user_id,
   });
 
   address.save(function(err) {
@@ -63,7 +63,7 @@ var postAddress = function(req, res) {
   });
 };
 
-// Create endpoint /tortoise/user/address/:user_id for GET
+// Create endpoint /tortoise/user/profile/address/:user_id for GET
 var getAddress = function(req, res) {
   Address.find({user_id: req.params.user_id}, function(err, address) {
     if (err)
@@ -76,13 +76,12 @@ var getAddress = function(req, res) {
 
 // ------------------------------------------------------------------ //
 
-// Create endpoint /tortoise/user/service for POST
+// Create endpoint /tortoise/user/profile/service for POST
 var postService = function(req, res) {
   var service = new Service({
   	service_name: req.body.service_name,
   	service_type: req.body.service_type,
   	attribute: req.body.attribute,
-  	service_id: req.body.service_id,
   	user_id: req.body.user_id,
   });
 
@@ -95,7 +94,7 @@ var postService = function(req, res) {
 };
 
 
-// Create endpoint /tortoise/user/service/:user_id for GET
+// Create endpoint /tortoise/user/profile/service/:user_id for GET
 var getService = function(req, res) {
   Service.find({user_id: req.params.user_id}, function(err, service) {
     if (err)
@@ -110,47 +109,49 @@ var getService = function(req, res) {
 // ------------------------------------------------------------------ //
 
 
-// Create endpoint /tortoise/user/medical_service for POST
+// Create endpoint /tortoise/user/profile/medical_history for POST
 var postMedicalHistory = function(req, res) {
   var medical_service = new MedicalHistory({
-	  dob: {
-		  format: req.body.format,
-		  date: req.body.date
-	  },
-	  
-	  height: {
-		  unit: req.body.height,
-		  value: req.body.value
-	  },
-	  
-	  weight: {
-		  unit: req.body.unit,
-		  value: req.body.value
-	  },
-	
-	  blood_pressure: {
-  		dateformat: req.body.dateformat,
-  		last_reading_on: req.body.last_reading_on,
-  		systole: req.body.systole,
-  		diastole: req.body.diastole
-	  },
-	  
-	  diabetic: {
-  		dateformat: req.body.dateformat,
-  		last_reading_on: req.body.last_reading_on,
-  		reading: {
-  			fasting: req.body.fasting,
-  			post_meal: req.body.post_meal
-  		}
+    dob: {
+        date_format: req.body.dob_format,
+        date: req.body.dob_date,
+    },
+ 
+    height: {
+        unit: req.body.height_unit,
+        value: req.body.height_value,
     },
 	  
-	  thyroid: {
-  		dateformat: req.body.dateformat,
-  		last_reading_on: req.body.last_reading_on,
-  		report_uri: req.body.report_uri
-	  },
+    weight: {
+        date_format: req.body.weight_date_format,
+        last_reading_on: req.body.weight_last_reading_on,
+        unit: req.body.weight_unit,
+        value: req.body.weight_value,
+    },
+	
+    blood_pressure: {
+        date_format: req.body.bp_date_format,
+        last_reading_on: req.body.bp_last_reading_on,
+        systole: req.body.bp_systole,
+        diastole: req.body.bp_diastole,
+    },
 
-  	user_id: req.body.user_id
+    diabetic: {
+        date_format: req.body.diabetise_dateformat,
+        last_reading_on: req.body.diabetise_last_reading_on,
+        reading: {
+            fasting: req.body.diabetise_fasting,
+            post_meal: req.body.diabetise_post_meal,
+        },
+    },
+
+    thyroid: {
+        date_format: req.body.thyroid_dateformat,
+        last_reading_on: req.body.thyroid_last_reading_on,
+        report_uri: req.body.thyroid_report_uri,
+    },
+      
+    user_id: req.body.user_id,
   });
 
   medical_service.save(function(err) {
@@ -162,7 +163,7 @@ var postMedicalHistory = function(req, res) {
 };
 
 
-// Create endpoint /tortoise/user/service/:user_id for GET
+// Create endpoint /tortoise/user/profile/service/:user_id for GET
 var getMedicalHistory = function(req, res) {
   MedicalHistory.find({user_id: req.params.user_id}, function(err, medical_history) {
     if (err)
@@ -221,38 +222,48 @@ var getProfileAll = function(req, res) {
 };
 
 
+// Create endpoint /tortoise/user/profile for GET
+var getProfilesAll = function (req, res) {
+    res.json({message: '/tortoise/user/profile'});
+};
+
+
 // ---------------------------------------------------------------//
 
-// Create endpoint /tortoise/user/profile for POST
-router.route('/user/profile')
+// Create endpoint /tortoise/user/profile/:user_id for POST
+router.route('/')
+	.get(getProfileAll);
+
+// Create endpoint /tortoise/user/profile/nameinfo for POST
+router.route('/nameinfo')
 	.post(postProfile);
 
-// Create endpoint /tortoise/user/profile/:user_id for GET
-router.route('/user/profile/:user_id')
+// Create endpoint /tortoise/user/profile/nameinfo/:user_id for GET
+router.route('/nameinfo/:user_id')
 	.get(getProfile);
 
-// Create endpoint /tortoise/user/address for POST
-router.route('/user/address')
+// Create endpoint /tortoise/user/profile/address for POST
+router.route('/address')
 	.post(postAddress);
 
-// Create endpoint /tortoise/user/address/:user_id for GET
-router.route('/user/address/:user_id')
+// Create endpoint /tortoise/user/profile/address/:user_id for GET
+router.route('/address/:user_id')
 	.get(getAddress);
 
-// Create endpoint /tortoise/user/service for POST
-router.route('/user/service')
+// Create endpoint /tortoise/user/profile/service for POST
+router.route('/service')
 	.post(postService);
 
-// Create endpoint /tortoise/user/service/:user_id for GET
-router.route('/user/service/:user_id')
+// Create endpoint /tortoise/user/profile/service/:user_id for GET
+router.route('/service/:user_id')
 	.get(getService);
 
-// Create endpoint /tortoise/user/medical_history for POST
-router.route('/user/medical_history')
+// Create endpoint /tortoise/user/profile/medical_history for POST
+router.route('/medical_history')
 	.post(postMedicalHistory);
 
-// Create endpoint /tortoise/user/medical_history/:user_id for GET
-router.route('/user/medical_history/:user_id')
+// Create endpoint /tortoise/user/profile/medical_history/:user_id for GET
+router.route('/medical_history/:user_id')
 	.get(getMedicalHistory);
 
 // ---------------------------------------------------------------//

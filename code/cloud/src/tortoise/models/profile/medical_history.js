@@ -3,44 +3,46 @@ var mongoose = require('mongoose');
 
 // Defind the schema for user medical_history profile
 var medical_history_schema = new mongoose.Schema({
-	  dob: {
-		  format: String,
-		  date: Date
-	  },
+    dob: {
+        date_format: String,
+        date: String,
+    },
 
-	  height: {
-		  unit: String,
-		  value: Number
-	  },
+    height: {
+        unit: String,
+        value: Number,
+    },
 
-	  weight: {
-		  unit: String,
-		  value: Number
-	  },
+    weight: {
+        date_format: String,
+        last_reading_on: String,
+        unit: String,
+        value: Number,
+    },
 
-	  blood_pressure: {
-		dateformat: String,
-		last_reading_on: Date,
-		systole: Number,
-		diastole: Number
-	  },
+    blood_pressure: {
+        date_format: String,
+        last_reading_on: String,
+        systole: Number,
+        diastole: Number,
+    },
 
-	  diabetic: {
-		dateformat: String,
-		last_reading_on: Date,
-		reading: {
-			fasting: Number,
-			post_meal: Number
-		}
-	  },
+    diabetic: {
+        date_format: String,
+        last_reading_on: String,
+        reading: {
+            fasting: Number,
+            post_meal: Number,
+        },
+    },
 
-	  thyroid: {
-		dateformat: String,
-		last_reading_on: Date,
-		report_uri: String
-	  },
+    thyroid: {
+        date_format: String,
+        last_reading_on: String,
+        report_uri: String,
+    },
 
-	  user_id: String
+    user_id: String,
 });
 	
 // Export the medical_history data model

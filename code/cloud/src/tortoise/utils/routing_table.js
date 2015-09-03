@@ -3,23 +3,29 @@ module.exports = function() {
 	return [
 		    // For testing:
 			{uri: '/', controller: '../controllers/index'},
-			{uri: '/users', controller: '../controllers/users'},
-			
+			// {uri: '/users', controller: '../controllers/users'},
+
 			// User login:
-			{uri: '/tortoise/users', controller: '../controllers/user'},
-			{uri: '/tortoise/users/:user_id', controller: '../controllers/user'},
-			{uri: '/tortoise/users/authenticate', controller: '../controllers/user'},
-			
+			{uri: '/tortoise/users', controller: '../controllers/users'},
+			{uri: '/tortoise/users/:user_id', controller: '../controllers/users'},
+			{uri: '/tortoise/users/register', controller: '../controllers/users'},
+			{uri: '/tortoise/users/logon', controller: '../controllers/users'},
+			{uri: '/tortoise/users/logoff', controller: '../controllers/users'},
+			{uri: '/tortoise/users/resetpassword', controller: '../controllers/users'},
+			{uri: '/tortoise/users/resetpasswordfinal', controller: '../controllers/users'},
+
 			// User profile:
-			{uri: '/tortoise/user/profile', controller: '../controllers/profile'},
-			{uri: '/tortoise/user/profile/:user_id', controller: '../controllers/profile'},
-			{uri: '/tortoise/user/address', controller: '../controllers/profile'},
-			{uri: '/tortoise/user/address/:user_id', controller: '../controllers/profile'},
-			{uri: '/tortoise/user/service', controller: '../controllers/profile'},
-			{uri: '/tortoise/user/service/:user_id', controller: '../controllers/profile'},
-			{uri: '/tortoise/user/medical_history', controller: '../controllers/profile'},
-			{uri: '/tortoise/user/medical_history/:user_id', controller: '../controllers/profile'},
-			
+            {uri: '/tortoise/user/profile', controller: '../controllers/profile'},
+            {uri: '/tortoise/user/profile/:user_id', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/nameinfo', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/nameinfo/:user_id', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/address', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/address/:user_id', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/service', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/service/:user_id', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/medical_history', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/medical_history/:user_id', controller: '../controllers/profile'},
+
 			// Service dashboard:
 			{uri: '/tortoise/services/dashboard', controller: '../controllers/dashboard'},
 			{uri: '/tortoise/services/dashboard/:service_id', controller: '../controllers/dashboard'},
