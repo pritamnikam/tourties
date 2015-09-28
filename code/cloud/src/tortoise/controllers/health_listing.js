@@ -8,12 +8,17 @@ var Review = require('../models/services/review');
 
 // Helper function to add health listings.
 function addHealthListingUtil(req, res, listing) {
+console.log(req.files);
   var health_listing = new HealthListing({
 	  listing_type: listing, 
 	  listing_name: req.body.listing_name,
 	  location: req.body.location,
 	  address: req.body.address,
 	  description: req.body.description,
+	  latitute: req.body.lat,
+	  longitude: req.body.long,
+	  contact: req.body.contact,
+	  email: req.body.email,
 	  image: req.body.image,
 	  user_rating: {
 		  total_reviews: 0,
@@ -26,7 +31,11 @@ function addHealthListingUtil(req, res, listing) {
     if (err)
       res.send(err);
       
-      res.json(health_listing);
+      res.send('<h2>Created SuccessFully</h2><br><button onclick="{window.history.back();}">Go Back</button>');
+      health_listing.sync(function (err, numSynced) {
+ 	     // all cats are now searchable in elasticsearch
+       console.log('number of cats synced:', numSynced)
+	   })
   });
 }
 

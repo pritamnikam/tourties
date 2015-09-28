@@ -15,8 +15,8 @@ module.exports = function() {
 			{uri: '/tortoise/users/resetpasswordfinal', controller: '../controllers/users'},
 
 			// User profile:
-            {uri: '/tortoise/user/profile', controller: '../controllers/profile'},
-            {uri: '/tortoise/user/profile/:user_id', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile', controller: '../controllers/profile'},
+			{uri: '/tortoise/user/profile/:user_id', controller: '../controllers/profile'},
 			{uri: '/tortoise/user/profile/nameinfo', controller: '../controllers/profile'},
 			{uri: '/tortoise/user/profile/nameinfo/:user_id', controller: '../controllers/profile'},
 			{uri: '/tortoise/user/profile/address', controller: '../controllers/profile'},
@@ -43,5 +43,9 @@ module.exports = function() {
 			{uri: '/tortoise/services/healthlistings/reviews/hospitals/:listing_id', controller: '../controllers/health_listing'},
 			{uri: '/tortoise/services/healthlistings/reviews/physicians/:listing_id', controller: '../controllers/health_listing'},
 			{uri: '/tortoise/services/healthlistings/reviews/pharmacies/:listing_id', controller: '../controllers/health_listing'},
+
+			// Cart Management:
+			{uri: '/tortoise/cart', controller: '../controllers/cart'},
+			{uri: '/tortoise/cart/:id', controller: '../controllers/cart'},
 		  ];
 };

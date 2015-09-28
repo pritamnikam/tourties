@@ -36,7 +36,7 @@ AccountController.prototype.register = function (newUser, callback) {
         }
 
         if (user) {
-            return callback(err, new me.Response({ success: false, extras: { msg: me.Messages.username_ALREADY_EXISTS } }));
+            return callback(err, new me.Response({ success: false, extras: { msg: me.Messages.USERNAME_ALREADY_EXISTS } }));
         } else {
 
             newUser.save(function (err, user, numberAffected) {

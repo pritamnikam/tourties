@@ -5,7 +5,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 var passport = require('passport');
+var multer  = require('multer');
 
 // Build the connection string
 var db_uri = 'mongodb://localhost:27017/tortoisedb';
@@ -29,6 +31,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+var multer=multer({ dest: './public/img'})
+app.post('/api/photos',multer,function(req, res) {
+	res.send({
+		path: req.files.userPhoto.name
+            });
+	res.end();
+});
 
 // Use the body-parser package in our application
 app.use(bodyParser.urlencoded({
