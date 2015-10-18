@@ -8,7 +8,8 @@ var UserSchema = new Schema({
     first_name: String,
     last_name: String,
     passwordHash: String,
-    passwordSalt: String
+    passwordSalt: String,
+    verified: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('User', UserSchema);

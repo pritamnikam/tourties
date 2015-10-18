@@ -8,15 +8,17 @@ var express = require('express'),
     UserPasswordReset = require('../models/user/user-pwd-reset.js'),
     UserPasswordResetFinal = require('../models/user/user-pwd-reset-final.js'),
     session = [],
-    UserController = require('./user/user.js');
+    UserController = require('./user/user.js'),
+    VerificationToken = require('../models/user/verification-token.js'),
+    Mailer = require('../utils/mailer.js');
 
-var postAccountRegister = function(req, res) {
-    var accountController = new AccountController(User, req.session);
+var postAccountRegister = function (req, res) {
+    var accountController = new AccountController(User, req.session, VerificationToken, Mailer);
     var userRegistration = new UserRegistration(req.body);
     var response = accountController.getUserFromUserRegistration(userRegistration);
 
     if (response.success) {
-        accountController.register(response.extras.user, function (err, register_response) {
+        accountController.register(response.extras.user, req, function (err, register_response) {
             return res.send(register_response);
         });
     } else {
@@ -95,6 +97,17 @@ var putUser = function (req, res) {
     });
 }
 
+var getVerifyUser = function (req, res, next) {
+    var user_controller = new UserController(User, VerificationToken);
+    var token = req.params.token;
+
+    // Verify the token.
+    user_controller.verifyUser(token, function(err, response) {
+        if (err) return res.send(response);
+        res.send(response);
+    });
+}
+
 // ---------------------------------------------------------------//
 
 router.route('/')
@@ -120,6 +133,9 @@ router.route('/resetpassword')
 
 router.route('/resetpasswordfinal')
 	.post(postPasswordResetFinal)
+
+router.route('/verify/:token')
+  .get(getVerifyUser);
 
 // ---------------------------------------------------------------//
 

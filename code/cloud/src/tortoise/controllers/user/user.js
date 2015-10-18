@@ -1,19 +1,23 @@
-var UserController = function (userModel) {
+var UserController = function (userModel, VerificationToken) {
 
     var crypto = require('crypto'),
         uuid = require('node-uuid'),
         Response = require('../../models/response.js'),
         Messages = require('../../models/messages.js');
-        
 
     // TODO: Implement login, logout and changePassword methods. 
 
     var readAllUsers = function (callback) {
-
+        // For all users registered.
         userModel.find(function (err, users) {
 
             if (err) {
-                return callback(err, new Response({ success: false, extras: { msg: Messages.DB_ERROR } }));
+                return callback(err, new Response(
+                    {
+                        success: false, extras: {
+                            msg: Messages.DB_ERROR
+                        }
+                    }));
             } 
 
             var userProfileModels = [];
@@ -30,7 +34,12 @@ var UserController = function (userModel) {
                 userProfileModels.push(userProfileModel);
             });
 
-            return callback(err, new Response({ success: true, extras: { userProfileModels: userProfileModels } }));
+            return callback(err, new Response(
+                {
+                    success: true, extras: {
+                        userProfileModels: userProfileModels
+                    }
+                }));
         });
     };
 
@@ -38,7 +47,12 @@ var UserController = function (userModel) {
         userModel.findOne({_id: user_id}, function (err, user) {
 
             if (err) {
-                return callback(err, new Response({ success: false, extras: { msg: Messages.DB_ERROR } }));
+                return callback(err, new Response(
+                    {
+                        success: false, extras: {
+                            msg: Messages.DB_ERROR
+                        }
+                    }));
             }
 
             if (user) {
@@ -54,7 +68,13 @@ var UserController = function (userModel) {
                     }
                 }));
             } else {
-                return callback(err, new Response({ success: false, extras: { msg: Messages.NOT_FOUND } }));
+                // No record found
+                return callback(err, new Response(
+                    {
+                        success: false, extras: {
+                            msg: Messages.NOT_FOUND
+                        }
+                    }));
             }
         });
     };
@@ -69,7 +89,12 @@ var UserController = function (userModel) {
         hashPassword(user.password, user.passwordSalt, function (err, passwordHash) {
 
             if (err) {
-                return callback(err, new Response({ success: false, extras: { msg: Messages.DB_ERROR } }));
+                return callback(err, new Response(
+                    {
+                        success: false, extras: {
+                            msg: Messages.DB_ERROR
+                        }
+                    }));
             }
 
             user.passwordHash = passwordHash;
@@ -77,7 +102,7 @@ var UserController = function (userModel) {
                 callback(err, user, numberAffected);
             });
 
-        });        
+        });
     };
 
     var updateUser = function (user_id, userIn, callback) {
@@ -86,19 +111,34 @@ var UserController = function (userModel) {
             // Condition
             {_id: user_id},
             // Update
-            {username: userIn.username, first_name: userIn.first_name, last_name: userIn.last_name, account_type: userIn.account_type},
+            {
+                username: userIn.username,
+                first_name: userIn.first_name,
+                last_name: userIn.last_name,
+                account_type: userIn.account_type
+            },
             // Options
             { multi: false },
             // Callback
             function (err, numberAffected, rawResponse) {
-                callback(err, new Response({ success: true, extras: 'User updated.' }))
+                callback(err, new Response(
+                    {
+                        success: true, extras: {
+                            msg: 'User updated.'
+                        }
+                    }));
             }
         );
     };
 
     var deleteUser = function (user_id, callback) {
         userModel.remove({ _id: user_id }, function (err, user) {
-            callback(err, new Response({ success: true, extras: { userProfileModels: user } }));
+            callback(err, new Response(
+                {
+                    success: true, extras: {
+                        userProfileModels: user
+                    }
+                }));
         });
     };
 
@@ -107,21 +147,37 @@ var UserController = function (userModel) {
         userModel.findOne({ username: username }, function (err, user) {
 
             if (err) {
-                callback(err, new Response({ success: false, extras: { msg: Messages.DB_ERROR } }));
+                callback(err, new Response(
+                    {
+                        success: false, extras: {
+                            msg: Messages.DB_ERROR
+                        }
+                    }));
                 return;
             }   // Error case.
 
-            if (!user) callback(err, new Response({ success: false, extras: { msg: Messages.username_NOT_FOUND } })); // User not found case
+            if (!user) {
+                return callback(err, new Response(
+                    {
+                        success: false, extras: {
+                            msg: Messages.username_NOT_FOUND
+                        }
+                    })); // User not found case
+            }
 
             // Compare user's password hash with provided password's hash.
-
             var userPasswordHash = user.passwordHash,
                 userPasswordSalt = user.passwordSalt;
 
             hashPassword(password, userPasswordSalt, function (err, derivedPasswordHash) {
 
                if (err) {
-                   return callback(err, new Response({ success: false, extras: { msg: Messages.DB_ERROR } }));
+                    return callback(err, new Response(
+                        {
+                            success: false, extras: {
+                                msg: Messages.DB_ERROR
+                            }
+                        }));
                }    // Error case.
 
                if (derivedPasswordHash === userPasswordHash) {
@@ -138,7 +194,12 @@ var UserController = function (userModel) {
                        }
                    }));
                } else {
-                   return callback(err, new Response({ success: false, extras: { msg: Messages.INVALID_PWD } })); // Invalid password.
+                    return callback(err, new Response(
+                        {
+                            success: false, extras: {
+                                msg: Messages.INVALID_PWD
+                            }
+                        })); // Invalid password.
                }
            });
         });
@@ -151,12 +212,58 @@ var UserController = function (userModel) {
         crypto.pbkdf2(password, salt, iterations, keyLen, callback);
     };
 
+
+    var verifyUser = function (token, callback) {
+        VerificationToken.findOne({token: token}, function (err, doc){
+            if (err) {
+                return callback(err, new Response(
+                    {
+                        success: false, extras: {
+                            msg: Messages.DB_ERROR
+                        }
+                    }));
+            }
+
+            if (!doc) {
+                // No recored found case: either invalid or token expired.
+                return callback(err, new Response(
+                    {
+                        success: false, extras: {
+                            msg: Messages.VERIFICATION_TOKEN_INVALID_OR_EXPIRED
+                        }
+                    }));
+            }
+
+            userModel.findOne({_id: doc._userId}, function (err, user) {
+                if (err) {
+                    return callback(err, new Response(
+                        {
+                            success: false, extras: {
+                                msg: Messages.DB_ERROR
+                            }
+                        }));
+                }
+
+                user["verified"] = true;
+                user.save(function(err) {
+                    return callback(err, new Response(
+                        {
+                            success: true, extras: {
+                                message: "Email verified successfuly. Please login."
+                            }
+                        }));
+                });
+            });
+        });
+    }
+
     return {
         readAllUsers: readAllUsers,
         readUser: readUser,
         createUser: createUser,
         updateUser: updateUser,
-        deleteUser: deleteUser
+        deleteUser: deleteUser,
+        verifyUser: verifyUser
     }
 };
 

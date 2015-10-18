@@ -4,7 +4,8 @@ var UserRegistration = function(config) {
     this.first_name = config.first_name,
     this.last_name = config.last_name,
     this.password = config.password,
-    this.passwordConfirm = config.passwordConfirm
+    this.passwordConfirm = config.passwordConfirm,
+    this.verify = false
 };
 
 module.exports = UserRegistration;

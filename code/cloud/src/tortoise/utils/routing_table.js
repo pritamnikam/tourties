@@ -11,12 +11,13 @@ module.exports = function() {
 			{uri: '/tortoise/users/register', controller: '../controllers/users'},
 			{uri: '/tortoise/users/logon', controller: '../controllers/users'},
 			{uri: '/tortoise/users/logoff', controller: '../controllers/users'},
+                        {uri: '/tortoise/users/verify/:token', controller: '../controllers/users'},
 			{uri: '/tortoise/users/resetpassword', controller: '../controllers/users'},
 			{uri: '/tortoise/users/resetpasswordfinal', controller: '../controllers/users'},
 
 			// User profile:
-			{uri: '/tortoise/user/profile', controller: '../controllers/profile'},
-			{uri: '/tortoise/user/profile/:user_id', controller: '../controllers/profile'},
+                        {uri: '/tortoise/user/profile', controller: '../controllers/profile'},
+                        {uri: '/tortoise/user/profile/:user_id', controller: '../controllers/profile'},
 			{uri: '/tortoise/user/profile/nameinfo', controller: '../controllers/profile'},
 			{uri: '/tortoise/user/profile/nameinfo/:user_id', controller: '../controllers/profile'},
 			{uri: '/tortoise/user/profile/address', controller: '../controllers/profile'},
